@@ -1,7 +1,7 @@
 export default {
   providers: [
     {
-      domain: "https://exotic-monarch-38.clerk.accounts.dev",
+      domain: process.env.CLERK_JWT_ISSUER,
       applicationID: "convex",
     },
   ],

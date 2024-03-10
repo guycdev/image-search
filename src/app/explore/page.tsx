@@ -1,15 +1,20 @@
 "use client";
-import { UserButton } from "@clerk/clerk-react";
+import { UserButton, useUser } from "@clerk/clerk-react";
 import { useConvexAuth } from "convex/react";
 
 const Explore = () => {
   const { isLoading, isAuthenticated } = useConvexAuth();
 
-  console.log(isAuthenticated);
+  const user = useUser();
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="App">
-      {isAuthenticated ? "Logged in" : "Logged out or still loading"}
+      {isAuthenticated
+        ? "User is logged in " + user.user?.id
+        : "user is logged out"}
       <UserButton afterSignOutUrl="/" />
     </div>
   );
