@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from dotenv import load_dotenv
 import os
@@ -13,7 +14,9 @@ load_dotenv()
 
 class AuthTests(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome()
+        self.options = Options()
+        self.options.add_argument("--headless")
+        self.driver = webdriver.Chrome(options=self.options)
         self.url = "http://localhost:3000/explore"
         self.username = os.getenv("PYTHON_TEST_USERNAME")
         self.password = os.getenv("PYTHON_TEST_PASSWORD")
@@ -45,9 +48,10 @@ class AuthTests(unittest.TestCase):
         )
         time.sleep(2)
         auth_btn.click()
-        time.sleep(5)
-        text_element = driver.find_element(By.XPATH,
-                                           "//p[contains(text(), 'user_2dQy6dA1vUdJv3HPrxp903rtZZz')]")
+        text_element = WebDriverWait(driver, 20).until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//p[contains(text(), 'user_2dQy6dA1vUdJv3HPrxp903rtZZz')]"))
+        )
         self.assertIsNotNone(text_element)
 
 
