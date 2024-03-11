@@ -1,4 +1,7 @@
 import unittest
+import os
+import time
+import logging
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
@@ -6,8 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from dotenv import load_dotenv
-import os
-import time
+
 
 load_dotenv()
 
@@ -20,6 +22,7 @@ class AuthTests(unittest.TestCase):
         self.url = "http://localhost:3000/explore"
         self.username = os.getenv("PYTHON_TEST_USERNAME")
         self.password = os.getenv("PYTHON_TEST_PASSWORD")
+        self.userId = os.getenv("PYTHON_USER_ID")
 
     def test_auth(self):
         driver = self.driver
@@ -50,7 +53,7 @@ class AuthTests(unittest.TestCase):
         auth_btn.click()
         text_element = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located(
-                (By.XPATH, "//p[contains(text(), 'user_2dQy6dA1vUdJv3HPrxp903rtZZz')]"))
+                (By.XPATH, f"//p[contains(text(), '{self.userId}')]"))
         )
         self.assertIsNotNone(text_element)
 
