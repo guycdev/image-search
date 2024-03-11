@@ -11,11 +11,13 @@ const Explore = () => {
     return <div>Loading...</div>;
   }
   return (
-    <div className="App">
-      {isAuthenticated
-        ? "User is logged in " + user.user?.id
-        : "user is logged out"}
+    <div>
       <UserButton afterSignOutUrl="/" />
+      <p>
+        {isAuthenticated
+          ? "User is logged in " + user.user?.id
+          : "user is logged out"}
+      </p>
     </div>
   );
 };
